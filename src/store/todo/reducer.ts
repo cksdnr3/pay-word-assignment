@@ -31,7 +31,7 @@ const reducer = (state = initialState, action: TodoAction) => {
             return {
                 ...state,
                 addTodoLoading: false,
-                msg: action.payload.msg,
+                todoList: [ action.payload, ...state.todoList ],
             }
         case types.ADD_TODO_FAILURE:
             console.log(action.type);
@@ -71,9 +71,8 @@ const reducer = (state = initialState, action: TodoAction) => {
             console.log(action.type);
             return {
                 ...state,
-                msg: action.payload.msg,
-                content: action.payload.content,
                 changeTodoContentLoading: false,
+                todoList: state.todoList.map(v => v.id === action.payload.id ? { ...v, content: action.payload.content } : v)
             }
         case types.CHANGE_TODO_CONTENT_FAILURE:
             console.log(action.type);
@@ -92,7 +91,7 @@ const reducer = (state = initialState, action: TodoAction) => {
             return {
                 ...state,
                 checkTodoLoading: false,
-                msg: action.payload.msg,
+                todoList: state.todoList.map(v => v.id === action.payload ? { ...v, isCheck: !v.isCheck } : v)
             }
         case types.CHECK_TODO_FAILURE:
             console.log(action.type);
@@ -111,8 +110,8 @@ const reducer = (state = initialState, action: TodoAction) => {
             console.log(action.type);
             return {
                 ...state,
-                msg: action.payload,
                 deleteTodoLoading: false,
+                todoList: state.todoList.filter(v => v.id !== action.payload),
             }
         case types.DELETE_TODO_FAILURE:
             console.log(action.type);

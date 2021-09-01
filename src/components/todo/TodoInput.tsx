@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { getDateString, getDayString } from 'utils/formatDate';
 
 interface TodoInputProps {
-    dispatchAdd: (content: AddTodoRequest) => void;
+    dispatchAdd: (content: string) => void;
     addTodoLoading: boolean;
 }
 
@@ -19,7 +19,7 @@ const TodoInput: React.FC<TodoInputProps> = ({ dispatchAdd, addTodoLoading }) =>
     }
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatchAdd({ content: input });
+        dispatchAdd(input); 
         setInput('');
     }
 

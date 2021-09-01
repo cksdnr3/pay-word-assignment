@@ -7,13 +7,12 @@ import { todoSelector } from 'store/todo/reducer';
 import { addTodo,  checkTodo,  chnageTodoContent,  deleteTodo,  getTodos, } from 'store/todo';
 import { useEffect } from 'react';
 import Spinner from 'components/common/Spinner';
-import { AddTodoRequest } from 'api/todo';
 
 const TodoContainer: React.FC = () => {
     const { todoList, addTodoLoading, getTodosLoading } = useSelector(todoSelector);
     const dispatch = useDispatch();
 
-    const dispatchAdd = (content: AddTodoRequest) => {
+    const dispatchAdd = (content: string) => {
         dispatch(addTodo.pending(content));
     }
     const dispatchCheck = (id: string, isCheck: boolean) => {
