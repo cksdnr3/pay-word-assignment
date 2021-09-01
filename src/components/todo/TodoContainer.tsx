@@ -24,7 +24,7 @@ const TodoContainer: React.FC = () => {
     }
     const dispatchDelete = (id: string) => {
         dispatch(deleteTodo.pending(id));
-    }
+    } 
 
     useEffect(() => {
         dispatch(getTodos.pending());
