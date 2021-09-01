@@ -1,5 +1,5 @@
 const createAction = (type: string) => {
-    return <P>(payload: P) => ({
+    return (payload: any) => ({
         type, payload
     });
 };

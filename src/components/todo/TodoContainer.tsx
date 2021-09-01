@@ -2,19 +2,42 @@ import React from 'react';
 import styled from 'styled-components';
 import TodoInput from 'components/todo/TodoInput';
 import TodoList from 'components/todo/TodoList';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { todoSelector } from 'store/todo/reducer';
+import { addTodoPending, changeTodoContentPending, checkTodoPending, getTodosPending } from 'store/todo';
+import { useEffect } from 'react';
+import Spinner from 'components/common/Spinner';
 
 const TodoContainer: React.FC = () => {
-    const {count, todoList} = useSelector(todoSelector);
+    const { todoList, getTodosLoading, addTodoLoading, msg } = useSelector(todoSelector);
+    const dispatch = useDispatch();
 
+    const dispatchAdd = (content: string) => {
+        dispatch(addTodoPending(content));
+    }
+    const dispatchCheck = (id: string, isCheck: boolean) => {
+        dispatch(checkTodoPending({ id, isCheck }))
+    }
+    const dispatchChange = (id: string, content: string) => {
+        dispatch(changeTodoContentPending({ id, content }))
+    }
 
+    useEffect(() => {
+        dispatch(getTodosPending());
+    }, [msg]);
 
     return (
         <Wrap>
             <Container>
-                <TodoInput />
-                <TodoList todoList={todoList} />
+                <TodoInput 
+                addTodoLoading={addTodoLoading}
+                dispatchAdd={dispatchAdd} />
+                {getTodosLoading 
+                ? <Spinner /> 
+                : <TodoList
+                dispatchChange={dispatchChange}
+                dispatchCheck={dispatchCheck}
+                todoList={todoList} />}
             </Container>
         </Wrap>
     )

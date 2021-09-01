@@ -1,9 +1,15 @@
+import Spinner from 'components/common/Spinner';
 import React, { ChangeEvent, FormEvent } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { getDateString, getDayString } from 'utils/formatDate';
 
-const TodoInput: React.FC = () => {
+interface TodoInputProps {
+    dispatchAdd: (content: string) => void;
+    addTodoLoading: boolean;
+}
+
+const TodoInput: React.FC<TodoInputProps> = ({ dispatchAdd, addTodoLoading }) => {
     const [now] = useState(new Date());
     const [input, setInput] = useState('');
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -12,9 +18,9 @@ const TodoInput: React.FC = () => {
     }
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        dispatchAdd(input);
         setInput('');
     }
-
 
     return (
         <Container>
@@ -26,7 +32,9 @@ const TodoInput: React.FC = () => {
                 onChange={handleInputChange}
                 value={input}
                 placeholder='할 일 제목' />
-                <Button>ADD</Button>
+                {addTodoLoading 
+                ? <Spinner width='37' height='37' /> 
+                : <Button>추가</Button>} 
             </Form>
         </Container>
     )
@@ -62,12 +70,13 @@ const Input = styled.input`
     padding: 10px;
     border: 1px solid #000000;
     border-radius: 5px;
-    width: 100%;
+    width: 90%;
     margin-right: 10px;
 `
 
 const Button = styled.button`
-    
+    cursor: pointer;
+    width: 10%;
 `
 
 export default TodoInput;

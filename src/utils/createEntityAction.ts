@@ -1,3 +1,4 @@
+export const a = 1;
 // export type APIEndPoint<P extends any[], R> = (...p: P) => Promise<R>;
 
 // interface Entity<P, S, F> {
