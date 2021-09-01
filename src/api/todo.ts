@@ -1,6 +1,8 @@
 import axios from "axios";
 import { Todo } from "store/todo";
 
+// API 요청 함수들 (비동기 처리가 필요)
+
 export async function addTodoAPI(content: AddTodoRequest) {
     return (await axios.post<AddTodoResponse>(`todo`, { content }));
 }
