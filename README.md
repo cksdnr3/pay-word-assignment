@@ -133,6 +133,17 @@ https://paywork-todolist-canuk.netlify.app/
   }
   ```
 </details>
+<br/>
+
+#### **구현 목록**
+1. Todo 생성
+2. Todo List 조회
+3. Todo 수정
+4. Todo 삭제
+5. Todo 체크
+6. Saga Template 생성 함수
+7. Async Action 생성 함수
+8. Action 생성 함수
 
 <br/>
 
