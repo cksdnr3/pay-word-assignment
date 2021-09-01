@@ -62,11 +62,13 @@ const reducer = (state = initialState, action: TodoAction) => {
                 getTodosError: action.payload,
             }
         case types.CHANGE_TODO_CONTENT_PENDING:
+            console.log(action.type);
             return {
                 ...state,
                 changeTodoContentLoading: true,
             }
         case types.CHANGE_TODO_CONTENT_SUCCESS:
+            console.log(action.type);
             return {
                 ...state,
                 msg: action.payload.msg,
@@ -74,6 +76,7 @@ const reducer = (state = initialState, action: TodoAction) => {
                 changeTodoContentLoading: false,
             }
         case types.CHANGE_TODO_CONTENT_FAILURE:
+            console.log(action.type);
             return {
                 ...state,
                 changeTodoContentError: action.payload,
@@ -99,17 +102,20 @@ const reducer = (state = initialState, action: TodoAction) => {
                 checkTodoError: action.payload,
             }
         case types.DELETE_TODO_PENDING:
+            console.log(action.type);
             return {
                 ...state,
                 deleteTodoLoading: true,
             }
         case types.DELETE_TODO_SUCCESS:
+            console.log(action.type);
             return {
                 ...state,
                 msg: action.payload,
                 deleteTodoLoading: false,
             }
         case types.DELETE_TODO_FAILURE:
+            console.log(action.type);
             return {
                 ...state,
                 deleteTodoLoading: false,

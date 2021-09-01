@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, MouseEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 import styled, { css } from 'styled-components';
 import { Todo } from 'store/todo/types';
 import CheckIcon from 'components/common/CheckIcon';
@@ -11,78 +11,62 @@ interface TodoItemProps extends TodoDispatch {
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo, dispatchCheck, dispatchChange, dispatchDelete }) => {
-    const [form, setForm] = useState(todo);
     const [modify, setModify] = useState(true);
+    const [content, setContent] = useState(todo.content);
     const contentInput = useRef<HTMLInputElement>(null);
 
     const handleCheck = () => {
-        dispatchCheck(form.id, !form.isCheck);
+        dispatchCheck(todo.id, !todo.isCheck);
     }
-
+    const handleDelete = () => {
+        dispatchDelete(todo.id);
+    }
+    const handleChange = () => {
+        dispatchChange(todo.id, content);
+    }
     const toggleModify = () => {
         setModify(prev => !prev);
         contentInput.current?.focus();
     }
-
-    const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
-        const { value, name } = e.target
-        setForm(prev => ({
-            ...prev,
-            [name]: value,
-        }));
-    }
-
-    const handleDelete = (e: MouseEvent) => {
-        e.preventDefault();
-        dispatchDelete(form.id);
-    }
-
-    const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        dispatchChange(form.id, form.content);
+    const handleChangeContent = (e: ChangeEvent<HTMLInputElement>) => {
+        setContent(e.target.value);
     }
 
     return (
-        <form
-        onSubmit={onSubmit}>
-            <Container 
-            checked={todo.isCheck}
-            >
-                    <SpaceLeft>
-                        <Check
-                        onClick={handleCheck}>
-                            <CheckBlock>
-                                {form.isCheck && 
-                                <CheckIcon 
-                                color="#55b8cf" />} 
-                            </CheckBlock>
-                        </Check>
-                        <ContentInput
-                        name='content'
-                        onChange={handleChangeForm}
-                        modify={modify}
-                        readOnly={modify}
-                        ref={contentInput}
-                        value={form.content} />
-                    </SpaceLeft>
-                    <SpaceRight>
-                        <Edit 
-                        onClick={toggleModify}>
-                            {modify 
-                            ? <ToggleEdit 
-                            onClick={(e) => e.preventDefault()} >
-                                수정
-                            </ToggleEdit> 
-                            : <Submit>확인</Submit>}
-                        </Edit>
-                        <Delete
-                        onClick={handleDelete}>
-                            삭제
-                        </Delete>
-                    </SpaceRight>
-            
-            </Container> 
-        </form>
+        <Container 
+        checked={todo.isCheck}>
+            <SpaceLeft>
+                <Check
+                onClick={handleCheck}>
+                    <CheckBlock>
+                        {todo.isCheck && 
+                        <CheckIcon 
+                        color="#55b8cf" />} 
+                    </CheckBlock>
+                </Check>
+                <ContentInput
+                onChange={handleChangeContent}
+                modify={modify}
+                readOnly={modify}
+                ref={contentInput}
+                value={content} />
+            </SpaceLeft>
+            <SpaceRight>
+                <Edit 
+                onClick={toggleModify}>
+                    {modify 
+                    ? <ToggleEdit>수정</ToggleEdit> 
+                    : <Submit 
+                    onClick={handleChange}>
+                        확인
+                    </Submit>}
+                </Edit>
+                <Delete
+                onClick={handleDelete}>
+                    삭제
+                </Delete>
+            </SpaceRight>
+        </Container> 
     )
 }
 

@@ -10,4 +10,4 @@ export const getDateString = (obj: Date): string => {
     const month = obj.getMonth();
     const date = obj.getDate();
     return `${MONTHS[month]} ${date}, ${year}`;
-}
+} 
