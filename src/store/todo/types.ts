@@ -1,5 +1,5 @@
 import { getTodosPending } from "."
-import { addTodoFailure, addTodoPending, addTodoSuccess, checkTodoFailure, checkTodoPending, checkTodoSuccess, getTodosFailure, getTodosSuccess } from "./actions"
+import { addTodoFailure, addTodoPending, addTodoSuccess, changeTodoContentFailure, changeTodoContentPending, changeTodoContentSuccess, checkTodoFailure, checkTodoPending, checkTodoSuccess, getTodosFailure, getTodosSuccess } from "./actions"
 
 export type Todo = {
     id: string;
@@ -18,6 +18,10 @@ export type TodosState = {
     getTodosError: Error | null;
     checkTodoLoading: boolean;
     checkTodoError: Error | null;
+    changeTodoContentLoading: boolean;
+    changeTodoContentError: Error | null;
+    deleteTodoLoading: boolean;
+    deleteTodoError: Error | null;
 }
 
 export type TodoAction = 
@@ -29,4 +33,7 @@ export type TodoAction =
     | ReturnType<typeof getTodosFailure>
     | ReturnType<typeof checkTodoPending>
     | ReturnType<typeof checkTodoSuccess>
-    | ReturnType<typeof checkTodoFailure>;
+    | ReturnType<typeof checkTodoFailure>
+    | ReturnType<typeof changeTodoContentPending>
+    | ReturnType<typeof changeTodoContentSuccess>
+    | ReturnType<typeof changeTodoContentFailure>;

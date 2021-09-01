@@ -3,19 +3,24 @@ import { Todo } from 'store/todo/types';
 import styled from 'styled-components';
 import TodoItem from './TodoItem';
 
-interface TodoListProps {
+interface TodoListProps extends TodoDispatch {
     todoList: Todo[];
-    dispatchCheck: (id: string, isCheck: boolean) => void;
-    dispatchChange: (id: string, content: string) => void;
 }
 
-const TodoList: React.FC<TodoListProps> = ({ todoList, dispatchCheck, dispatchChange }) => {
+export interface TodoDispatch {
+    dispatchCheck: (id: string, isCheck: boolean) => void;
+    dispatchChange: (id: string, content: string) => void;
+    dispatchDelete: (id: string) => void;
+}
+
+const TodoList: React.FC<TodoListProps> = ({ todoList, dispatchCheck, dispatchChange, dispatchDelete }) => {
     return (
         <Container>
             {todoList.map(todo => (
                 <TodoItem 
                 key={todo.id}
                 todo={todo} 
+                dispatchDelete={dispatchDelete}
                 dispatchChange={dispatchChange}
                 dispatchCheck={dispatchCheck}
                 />

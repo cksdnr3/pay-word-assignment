@@ -10,7 +10,7 @@ export interface AddTodoResponse {
 }
 
 export async function getTodosAPI() {
-    return (await axios.get<GetTodosResponse>('todo'))
+    return (await axios.get<GetTodosResponse>('todo')).data;
 }
 
 export interface GetTodosResponse {
@@ -31,15 +31,24 @@ export interface CheckTodoResponse {
     msg: string;
 }
 
-export async function changeTodoAPI({ id, content }: CahngeTodoRequest) {
-    return (await axios.post<ChangeTodoResponse>(`todo:${id}`, { content })).data;
+export async function changeTodoAPI({ id, content }: CahngeTodoContentRequest) {
+    return (await axios.post<ChangeTodoContentResponse>(`todo:${id}`, { content })).data;
 }
 
-export interface CahngeTodoRequest {
+export interface CahngeTodoContentRequest {
     id: string;
     content: string;
 }
-export interface ChangeTodoResponse {
+
+export interface ChangeTodoContentResponse {
     msg: string;
     content: string;
+}
+
+export async function deleteTodoAPI(id: string) {
+    return (await axios.post<DeleteTodoResponse>(`todo:${id}`)).data;
+}
+
+export interface DeleteTodoResponse {
+    msg: string;
 }

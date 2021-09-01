@@ -1,23 +1,22 @@
-import React, { ChangeEvent, FormEvent } from 'react';
+import React, { ChangeEvent, FormEvent, MouseEvent } from 'react';
 import styled, { css } from 'styled-components';
 import { Todo } from 'store/todo/types';
 import CheckIcon from 'components/common/CheckIcon';
 import { useState } from 'react';
 import { useRef } from 'react';
+import { TodoDispatch } from './TodoList';
 
-interface TodoItemProps {
+interface TodoItemProps extends TodoDispatch {
     todo: Todo;
-    dispatchCheck: (id: string, isCheck: boolean) => void;
-    dispatchChange: (id: string, content: string) => void;
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ todo, dispatchCheck, dispatchChange }) => {
+const TodoItem: React.FC<TodoItemProps> = ({ todo, dispatchCheck, dispatchChange, dispatchDelete }) => {
     const [form, setForm] = useState(todo);
     const [modify, setModify] = useState(true);
     const contentInput = useRef<HTMLInputElement>(null);
 
-    const handleClick = () => {
-        dispatchCheck(todo.id, !todo.isCheck);
+    const handleCheck = () => {
+        dispatchCheck(form.id, !form.isCheck);
     }
 
     const toggleModify = () => {
@@ -25,11 +24,17 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, dispatchCheck, dispatchChange
         contentInput.current?.focus();
     }
 
-    const handleChangeContent = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
+        const { value, name } = e.target
         setForm(prev => ({
             ...prev,
-            content: e.target.value,
+            [name]: value,
         }));
+    }
+
+    const handleDelete = (e: MouseEvent) => {
+        e.preventDefault();
+        dispatchDelete(form.id);
     }
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -45,7 +50,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, dispatchCheck, dispatchChange
             >
                     <SpaceLeft>
                         <Check
-                        onClick={handleClick}>
+                        onClick={handleCheck}>
                             <CheckBlock>
                                 {form.isCheck && 
                                 <CheckIcon 
@@ -53,7 +58,8 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, dispatchCheck, dispatchChange
                             </CheckBlock>
                         </Check>
                         <ContentInput
-                        onChange={handleChangeContent}
+                        name='content'
+                        onChange={handleChangeForm}
                         modify={modify}
                         readOnly={modify}
                         ref={contentInput}
@@ -69,7 +75,8 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, dispatchCheck, dispatchChange
                             </ToggleEdit> 
                             : <Submit>확인</Submit>}
                         </Edit>
-                        <Delete>
+                        <Delete
+                        onClick={handleDelete}>
                             삭제
                         </Delete>
                     </SpaceRight>

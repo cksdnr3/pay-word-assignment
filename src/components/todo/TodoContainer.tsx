@@ -4,7 +4,7 @@ import TodoInput from 'components/todo/TodoInput';
 import TodoList from 'components/todo/TodoList';
 import { useDispatch, useSelector } from 'react-redux';
 import { todoSelector } from 'store/todo/reducer';
-import { addTodoPending, changeTodoContentPending, checkTodoPending, getTodosPending } from 'store/todo';
+import { addTodoPending, changeTodoContentPending, checkTodoPending, deleteTodoPending, getTodosPending } from 'store/todo';
 import { useEffect } from 'react';
 import Spinner from 'components/common/Spinner';
 
@@ -21,6 +21,9 @@ const TodoContainer: React.FC = () => {
     const dispatchChange = (id: string, content: string) => {
         dispatch(changeTodoContentPending({ id, content }))
     }
+    const dispatchDelete = (id: string) => {
+        dispatch(deleteTodoPending(id)) 
+    }
 
     useEffect(() => {
         dispatch(getTodosPending());
@@ -35,6 +38,7 @@ const TodoContainer: React.FC = () => {
                 {getTodosLoading 
                 ? <Spinner /> 
                 : <TodoList
+                dispatchDelete={dispatchDelete}
                 dispatchChange={dispatchChange}
                 dispatchCheck={dispatchCheck}
                 todoList={todoList} />}

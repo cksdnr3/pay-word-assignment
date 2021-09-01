@@ -12,6 +12,10 @@ const initialState: TodosState = {
     getTodosError: null,
     checkTodoLoading: false,
     checkTodoError: null,
+    changeTodoContentLoading: false,
+    changeTodoContentError: null,
+    deleteTodoLoading: false,
+    deleteTodoError: null,
 };
 
 const reducer = (state = initialState, action: TodoAction) => {
@@ -57,12 +61,23 @@ const reducer = (state = initialState, action: TodoAction) => {
                 getTodosLoading: false,
                 getTodosError: action.payload,
             }
-        // case types.CHANGE_TODO_CONTENT_PENDING:
-        //     return;
-        // case types.CHANGE_TODO_CONTENT_SUCCESS:
-        //     return;
-        // case types.CHANGE_TODO_CONTENT_FAILURE:
-        //     return;
+        case types.CHANGE_TODO_CONTENT_PENDING:
+            return {
+                ...state,
+                changeTodoContentLoading: true,
+            }
+        case types.CHANGE_TODO_CONTENT_SUCCESS:
+            return {
+                ...state,
+                msg: action.payload.msg,
+                content: action.payload.content,
+                changeTodoContentLoading: false,
+            }
+        case types.CHANGE_TODO_CONTENT_FAILURE:
+            return {
+                ...state,
+                changeTodoContentError: action.payload,
+            }
         case types.CHECK_TODO_PENDING:
             console.log(action.type);
             return {
@@ -71,7 +86,6 @@ const reducer = (state = initialState, action: TodoAction) => {
             }
         case types.CHECK_TODO_SUCCESS:
             console.log(action.type);
-            console.log((state.msg === action.payload.msg));
             return {
                 ...state,
                 checkTodoLoading: false,
@@ -84,12 +98,23 @@ const reducer = (state = initialState, action: TodoAction) => {
                 checkTodoLoading: false,
                 checkTodoError: action.payload,
             }
-        // case types.DELETE_TODO_PENDING:
-        //     return;
-        // case types.DELETE_TODO_SUCCESS:
-        //     return;
-        // case types.DELETE_TODO_FAILURE:
-        //     return;
+        case types.DELETE_TODO_PENDING:
+            return {
+                ...state,
+                deleteTodoLoading: true,
+            }
+        case types.DELETE_TODO_SUCCESS:
+            return {
+                ...state,
+                msg: action.payload,
+                deleteTodoLoading: false,
+            }
+        case types.DELETE_TODO_FAILURE:
+            return {
+                ...state,
+                deleteTodoLoading: false,
+                deleteTodoError: action.payload,
+            }
         default:
             return state;
         
