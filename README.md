@@ -18,9 +18,9 @@ https://paywork-todolist-canuk.netlify.app/
 
 ###  Branch Preview
 - main : 네트 워크 통신 O | 동작 X
-- non-network : 네트 워크 통신 X | 동작 O 
+- non-network : 네트 워크 통신 X | 동작 O
   
-Redux-saga 코드는 main branch를 확인해주세요. 
+**함수 단위 주석은 main branch를 확인해주세요.**
 
 <br/>
 <details>
