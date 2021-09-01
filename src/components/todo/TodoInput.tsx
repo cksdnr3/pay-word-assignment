@@ -1,11 +1,12 @@
-import Spinner from 'components/common/Spinner';
 import React, { ChangeEvent, FormEvent } from 'react';
+import { AddTodoRequest } from 'api/todo';
+import Spinner from 'components/common/Spinner';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { getDateString, getDayString } from 'utils/formatDate';
 
 interface TodoInputProps {
-    dispatchAdd: (content: string) => void;
+    dispatchAdd: (content: AddTodoRequest) => void;
     addTodoLoading: boolean;
 }
 
@@ -18,7 +19,7 @@ const TodoInput: React.FC<TodoInputProps> = ({ dispatchAdd, addTodoLoading }) =>
     }
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatchAdd(input);
+        dispatchAdd({ content: input });
         setInput('');
     }
 

@@ -4,30 +4,31 @@ import TodoInput from 'components/todo/TodoInput';
 import TodoList from 'components/todo/TodoList';
 import { useDispatch, useSelector } from 'react-redux';
 import { todoSelector } from 'store/todo/reducer';
-import { addTodoPending, changeTodoContentPending, checkTodoPending, deleteTodoPending, getTodosPending } from 'store/todo';
+import { addTodo,  checkTodo,  chnageTodoContent,  deleteTodo,  getTodos, } from 'store/todo';
 import { useEffect } from 'react';
 import Spinner from 'components/common/Spinner';
+import { AddTodoRequest } from 'api/todo';
 
 const TodoContainer: React.FC = () => {
-    const { todoList, getTodosLoading, addTodoLoading, msg } = useSelector(todoSelector);
+    const { todoList, addTodoLoading, getTodosLoading } = useSelector(todoSelector);
     const dispatch = useDispatch();
 
-    const dispatchAdd = (content: string) => {
-        dispatch(addTodoPending(content));
+    const dispatchAdd = (content: AddTodoRequest) => {
+        dispatch(addTodo.pending(content));
     }
     const dispatchCheck = (id: string, isCheck: boolean) => {
-        dispatch(checkTodoPending({ id, isCheck }))
+        dispatch(checkTodo.pending({ id, isCheck }));
     }
     const dispatchChange = (id: string, content: string) => {
-        dispatch(changeTodoContentPending({ id, content }))
+        dispatch(chnageTodoContent.pending({ id, content }));
     }
     const dispatchDelete = (id: string) => {
-        dispatch(deleteTodoPending(id)) 
+        dispatch(deleteTodo.pending(id));
     }
 
     useEffect(() => {
-        dispatch(getTodosPending());
-    }, [msg]);
+        dispatch(getTodos.pending());
+    }, []);
 
     return (
         <Wrap>
@@ -35,7 +36,7 @@ const TodoContainer: React.FC = () => {
                 <TodoInput 
                 addTodoLoading={addTodoLoading}
                 dispatchAdd={dispatchAdd} />
-                {getTodosLoading 
+                {getTodosLoading
                 ? <Spinner /> 
                 : <TodoList
                 dispatchDelete={dispatchDelete}
@@ -44,7 +45,7 @@ const TodoContainer: React.FC = () => {
                 todoList={todoList} />}
             </Container>
         </Wrap>
-    )
+    ) 
 }
 
 const Wrap = styled.div`
